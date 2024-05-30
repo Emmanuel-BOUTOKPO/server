@@ -11,9 +11,7 @@ export default class CrewsController {
             firstname,
             lastname,
             poste,
-            picture,
-            social,
-            link
+            picture
           } = await request.validateUsing(crewValidator);
           
           await picture.move(app.makePath('uploads'), {
@@ -26,9 +24,7 @@ export default class CrewsController {
             firstname: firstname,
             lastname: lastname,
             poste: poste,
-            picture: pictPath,
-            social: social,
-            link: link,
+            picture: pictPath
           })
       
           return response.status(201).json({message: "Crew created succefuly"})
@@ -48,13 +44,12 @@ export default class CrewsController {
     updated = async ({params, request, response} : HttpContext) =>{
         try {
             const crewId = params.id
-            const data = request.only(['firstname', 'lastname', 'poste', 'social', 'link'])
+            const data = request.only(['firstname', 'lastname', 'poste'])
             const crew = await Crew.findOrFail(crewId)
         
             crew.firstname = data.firstname
             crew.lastname = data.lastname
             crew.poste = data.poste
-            crew.social = data.social
         
             const picture = request.file('picture')
 
